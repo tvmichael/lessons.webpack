@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue</title>
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+</head>
+<body>
+    <div id="vue-app">
+        <div class="product">
+            <div class="product-image">
+                <label v-show="imgLabel">{{label}}</label>
+                <img v-bind:src="image"  v-bind:alt="alt"/>
+            </div>
+            <div class="product-info">
+                <h1>{{product}}</h1>
+                <p v-if="inStock">In stock</p>
+                <p v-else>Out of stock</p>
+                <ul>
+                    <li v-for="detail in details">{{detail}}</li>
+                </ul>
+                <div>
+                    <p v-for="variant in variants" v-bind:data-id="variant.variantId">
+                        {{variant.variantColor}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- script src="https://cdn.jsdelivr.net/npm/vue"></script -->
+    <!--script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script -->
+    <script src="js/vue.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
