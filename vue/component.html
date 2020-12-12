@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Component</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/component.css" type="text/css" />
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div id="vue-app">
+            <div class="cart">
+                <p>Cart {{ cart.length }}</p>
+            </div>
+            <product v-bind:premium="premium" @add-to-cart="updateCart" @remove-from-cart="updateCart"></product>
+        </div>
+    </div>
+</div>
+
+<script src="js/vue/vue.js"></script>
+<script src="js/component.js"></script>
+</body>
+</html>
