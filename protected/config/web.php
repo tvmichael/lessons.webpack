@@ -2,19 +2,29 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$url = require __DIR__ . '/url.php';
 
 $config = [
     'id' => 'basic',
+    'name'=>'MiniSite',
+
+    // set target language to be Ukraine
+    'language' => 'ua-UA',
+    // set source language to be English
+    'sourceLanguage' => 'en-US',
+
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'defaultRoute'=> 'main/index',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'u_ndnmsENkx064E0v5T68heqAu_C6tmd',
+            // 'enableCookieValidation' => false, // відключити 'cookie'
+            'cookieValidationKey' => 'u_KFjHutPwIAqzYEvxUTMcSgeJDLdiNs_VbmOCpyWhBGlQ',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -43,14 +53,25 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
+            'rules' => $url,
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    //'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/main' => 'main.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
