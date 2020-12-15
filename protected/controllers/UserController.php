@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\form\RegistrationForm;
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
+use app\models\form\LoginForm;
+
 
 class UserController extends Controller
 {
@@ -74,6 +77,33 @@ class UserController extends Controller
             'model' => $model,
         ]);
     }
+
+    /**
+     * Registration action.
+     *
+     * @return Response|string
+     */
+    public function actionRegistration()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new RegistrationForm();
+        if ($model->load(Yii::$app->request->post()))
+        {
+            if($model->signup())
+            {
+                return $this->goBack();
+            }
+        }
+
+        $model->password_repeat = '';
+        return $this->render('registration', [
+            'model' => $model,
+        ]);
+    }
+
 
     /**
      * Logout action.

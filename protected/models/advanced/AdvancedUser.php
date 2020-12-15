@@ -1,32 +1,27 @@
 <?php
 
-namespace app\models;
+namespace app\models\advanced;
 
-class AdvancedUser extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use app\models\User;
+use Yii;
+
+class AdvancedUser extends User
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['username', 'auth_key', 'password_hash', 'email'], 'required'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'password_hash', 'password_reset_token', 'email', 'email_confirm_token'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['username'], 'unique'],
+            [['email'], 'unique'],
+            [['password_reset_token'], 'unique'],
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -100,5 +95,25 @@ class AdvancedUser extends \yii\base\BaseObject implements \yii\web\IdentityInte
     public function validatePassword($password)
     {
         return $this->password === $password;
+    }
+
+
+    /**
+     * @param $password
+     * @return string
+     * @throws \yii\base\Exception
+     */
+    public function setPassword($password)
+    {
+        return $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
+    }
+
+    /**
+     * @return string
+     * @throws \yii\base\Exception
+     */
+    public function generateAuthKey()
+    {
+        return $this->auth_key = Yii::$app->security->generateRandomString();
     }
 }
