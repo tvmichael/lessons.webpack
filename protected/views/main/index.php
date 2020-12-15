@@ -10,7 +10,7 @@ $this->title = 'MiniSite';
     </div>
     <div class="body-content">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-12">
                 <h3>Домашній помічник</h3>
                 <p>
                     ПОМІЧНИК. Той, хто допомагає кому-небудь у чомусь.

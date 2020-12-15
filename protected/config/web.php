@@ -1,7 +1,8 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+//$db = require __DIR__ . '/db.php';
+$db = require __DIR__ . '/db_loc.php';
 $url = require __DIR__ . '/url.php';
 
 $config = [
@@ -24,13 +25,13 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             // 'enableCookieValidation' => false, // відключити 'cookie'
-            'cookieValidationKey' => 'u_KFjHutPwIAqzYEvxUTMcSgeJDLdiNs_VbmOCpyWhBGlQ',
+            'cookieValidationKey' => 'u_skPc_hKLYyjJdFQoaSmrWNOZvMGiBIzXEnVARwUuqHxpTg',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\AdvancedUser',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -65,12 +66,15 @@ $config = [
                     'basePath' => '@app/messages',
                     //'sourceLanguage' => 'en-US',
                     'fileMap' => [
-                        'app' => 'app.php',
                         'app/main' => 'main.php',
+                        'app/user' => 'user.php',
                         'app/error' => 'error.php',
                     ],
                 ],
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
     ],
     'params' => $params,

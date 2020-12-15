@@ -4,5 +4,6 @@
  * Translation map for ua-UA
  */
 return [
-    'Login' => 'Вхід'
+    'Login' => 'Вхід',
+    'Main' => 'Головна'
 ];
