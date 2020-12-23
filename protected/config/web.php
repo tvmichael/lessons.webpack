@@ -31,7 +31,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\AdvancedUser',
+            'identityClass' => 'app\models\advanced\AdvancedUser',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -76,8 +76,22 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        'assetManager' => [
+            'converter' => [ // https://www.yiiframework.com/doc/guide/2.0/en/structure-assets
+                'class' => 'yii\web\AssetConverter',
+                'commands' => [
+                    'less' => ['css', 'lessc {from} {to} --no-color'],
+                    'ts' => ['js', 'tsc --out {to} {from}'],
+                ],
+            ],
+        ],
     ],
     'params' => $params,
+
+    'controllerMap' => [
+        // оголошує контролер "account", використовуючи назву класу
+        // 'account' => 'app\controllers\UserController',
+    ],
 ];
 
 if (YII_ENV_DEV) {
