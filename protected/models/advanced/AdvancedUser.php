@@ -2,10 +2,11 @@
 
 namespace app\models\advanced;
 
-use app\models\User;
 use Yii;
+use app\models\User;
+use yii\web\IdentityInterface;
 
-class AdvancedUser extends User
+class AdvancedUser extends User implements IdentityInterface
 {
     /**
      * {@inheritdoc}
@@ -13,13 +14,15 @@ class AdvancedUser extends User
     public function rules()
     {
         return [
-            [['username', 'auth_key', 'password_hash', 'email'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'email_confirm_token'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
             [['email'], 'unique'],
+            [['email'], 'email'],
             [['password_reset_token'], 'unique'],
+
+            // password is validated by validatePassword()
+            ['password', 'validatePassword'],
         ];
     }
 
@@ -28,7 +31,8 @@ class AdvancedUser extends User
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        $user =  self::findOne(['id' => $id]);
+        return $user ? new self($user) : null;
     }
 
     /**
@@ -36,30 +40,29 @@ class AdvancedUser extends User
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
 
     /**
-     * Finds user by username
+     * Finds all user by username
      *
      * @param string $username
      * @return static|null
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
+        return self::findAll(['username' => $username]);
+    }
 
-        return null;
+    /**
+     * Finds one user by email
+     *
+     * @param string $email
+     * @return static|null
+     */
+    public static function findByEmail($email)
+    {
+        return self::findOne(['email' => $email]);
     }
 
     /**
@@ -75,7 +78,7 @@ class AdvancedUser extends User
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->auth_key;
     }
 
     /**
@@ -94,7 +97,7 @@ class AdvancedUser extends User
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return Yii::$app->getSecurity()->validatePassword($password, $this->password_hash);
     }
 
 
@@ -105,15 +108,15 @@ class AdvancedUser extends User
      */
     public function setPassword($password)
     {
-        return $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
+        $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
     }
 
     /**
      * @return string
      * @throws \yii\base\Exception
      */
-    public function generateAuthKey()
+    public function setAuthKey()
     {
-        return $this->auth_key = Yii::$app->security->generateRandomString();
+        $this->auth_key = Yii::$app->security->generateRandomString();
     }
 }

@@ -1,8 +1,16 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-//$db = require __DIR__ . '/db.php';
-$db = require __DIR__ . '/db_loc.php';
+
+if($_SERVER['HTTP_HOST'] == 'localhost')
+{
+    $db = require __DIR__ . '/db_loc.php';
+}
+else
+{
+    $db = require __DIR__ . '/db.php';
+}
+
 $url = require __DIR__ . '/url.php';
 
 $config = [
@@ -10,7 +18,7 @@ $config = [
     'name'=>'MiniSite',
 
     // set target language to be Ukraine
-    'language' => 'ua-UA',
+    'language' => 'uk',
     // set source language to be English
     'sourceLanguage' => 'en-US',
 
@@ -25,7 +33,7 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             // 'enableCookieValidation' => false, // відключити 'cookie'
-            'cookieValidationKey' => 'u_skPc_hKLYyjJdFQoaSmrWNOZvMGiBIzXEnVARwUuqHxpTg',
+            'cookieValidationKey' => 'u_5m7I2sQRN2ZAPmZsrIZ_e78iEkzIvoVYC8d4Yr',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -35,7 +43,8 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'maxSourceLines' => 50,
+            'errorAction' => 'main/error',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -100,7 +109,7 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        //'allowedIPs' => ['188.163.120.*', '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';

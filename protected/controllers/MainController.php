@@ -6,7 +6,6 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
 use app\models\form\ContactForm;
 
 class MainController extends Controller
@@ -19,19 +18,18 @@ class MainController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['about', 'contact'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
                         'allow' => true,
+                        'actions' => ['about'],
+                        'roles' => ['?']
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['about', 'contact'],
                         'roles' => ['@'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -89,5 +87,10 @@ class MainController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionInfo()
+    {
+        return $this->render('info');
     }
 }

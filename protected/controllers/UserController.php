@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\form\RegistrationForm;
-use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -20,6 +19,8 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+            // https://www.yiiframework.com/doc/guide/2.0/en/security-authorization
+            // https://www.yiiframework.com/doc/guide/2.0/en/structure-filters
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['logout'],
@@ -31,6 +32,8 @@ class UserController extends Controller
                     ],
                 ],
             ],
+
+            // https://www.yiiframework.com/doc/api/2.0/yii-filters-verbfilter
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -68,7 +71,9 @@ class UserController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+        if ($model->load(Yii::$app->request->post()) && $model->login())
+        {
             return $this->goBack();
         }
 
@@ -78,10 +83,11 @@ class UserController extends Controller
         ]);
     }
 
+
     /**
-     * Registration action.
-     *
-     * @return Response|string
+     * Форма реєстрації нового користувача
+     * @return string|Response
+     * @throws \yii\base\Exception
      */
     public function actionRegistration()
     {
@@ -92,7 +98,7 @@ class UserController extends Controller
         $model = new RegistrationForm();
         if ($model->load(Yii::$app->request->post()))
         {
-            if($model->signup())
+            if($model->signUp())
             {
                 return $this->goBack();
             }
