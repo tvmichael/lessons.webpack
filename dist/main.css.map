@@ -1,1 +1,0 @@
-{"version":3,"file":"main.css","mappings":";;;AAAA;IACI,iBAAiB;IACjB,YAAY;AAChB,C","sources":["webpack://lessons.webpack/./src/css/main.css"],"sourcesContent":["body {\r\n    background: black;\r\n    color: white;\r\n}"],"names":[],"sourceRoot":""}
