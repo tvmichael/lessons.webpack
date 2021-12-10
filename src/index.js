@@ -1,11 +1,23 @@
-console.log('>> WP');
+import {ConsoleTool} from "./utils/ConsoleTool";
+import {Tab} from 'bootstrap/js/dist/tab';
 
-import {Utils} from "./js/Utils";
-import "./css/main.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './style.css';
 
-document.addEventListener('DOMContentLoaded', function () {
-    let d = document.createElement('div');
-    d.innerHTML = Utils.getVersion();
+class WebpackLessons {
+    constructor(element){
+        this.version = '0.1';
+        this.element = element;
+        this.c = new ConsoleTool();
+    }
 
-    document.getElementById('container').appendChild(d);
-});
+    init() {
+        this.c.cl(this);
+
+        let h1 = this.element.querySelector('h1');
+        h1.textContent = 'Webpack lessons. Start!';
+    }
+}
+
+let wp = new WebpackLessons(document.getElementById('container'));
+wp.init();
