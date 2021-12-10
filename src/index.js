@@ -1,4 +1,6 @@
 import {ConsoleTool} from "./utils/ConsoleTool";
+import {Tab} from 'bootstrap/js/dist/tab';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 
