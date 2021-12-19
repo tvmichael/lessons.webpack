@@ -1,5 +1,3 @@
-console.log('>> WP');
-
 import {Utils} from "./js/Utils";
 import "./css/main.css";
 
